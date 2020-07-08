@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Visitors</title>
+  </head>
+  <body>
+    <div class="container">
+      <h2 class="from-tag"></h2>
+      <div class="map" style="height: 500px"></div>
+      <div class="all-visitors">
+        <h2>Where our Visitors are From:</h2>
+        <hr>
+      </div>
+    </div>
+  </body>
+  <script>
+    const queryLocationData = async () => {
+      const visitors = await fetch('/api/visitors')
+      const ipInfo = await visitors.json()
+      const fromTag = document.querySelector('.from-tag')
+      const allVisitors = document.querySelector('.all-visitors')
+      fromTag.innerHTML = `You are visiting from ${ipInfo.session.data.cityStr}`
+
+      ipInfo.cached.forEach(cacheItem => {
+        const element = document.createElement('h2')
+        element.innerHTML = `${cacheItem.data.cityStr}: ${cacheItem.count}`
+        allVisitors.append(element)
+      })
+
+      const mapProp = {
+        center: new google.maps.LatLng(
+          ipInfo.session.data.ll[0],
+          ipInfo.session.data.ll[1]
+        ),
+        zoom: 11
+      }
+      const map = new google.maps.Map(document.querySelector('.map'), mapProp)
+
+      new google.maps.Marker({
+        position: {
+          lat: ipInfo.session.data.ll[0],
+          lng: ipInfo.session.data.ll[1]
+        },
+        map: map
+      })
+    }
+
+    window.onload = queryLocationData
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB29pGpCzE_JGIEMLu1SGIqwoIbc0sHFHo&callback=getLocationData"></script>
+</html>

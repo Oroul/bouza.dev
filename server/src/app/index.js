@@ -1,10 +1,9 @@
 const Koa = require('koa')
+const router = require('router')
+
 const app = new Koa()
 
-app.use(ctx => {
-  ctx.status = 200
-  ctx.body = 'Index Page'
-})
+app.use(router.routes())
 
 const server = app.listen(5000)
 

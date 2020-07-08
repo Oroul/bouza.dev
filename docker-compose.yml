@@ -1,6 +1,6 @@
 version: '3'
 services:
-  c0d3:
+  web:
     build: ./server
     restart: "always"
   nginx:
