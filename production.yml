@@ -1,0 +1,17 @@
+version: '3'
+services:
+  web:
+    build: ./server
+    restart: "always"
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - https-certs:/etc/nginx/certs:ro
+    depends_on:
+      - web
+
+volumes:
+  https-certs:
