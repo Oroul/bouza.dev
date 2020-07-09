@@ -6,7 +6,7 @@ const router = new Router()
 router.use(apiRouter.routes())
 
 router.get('/', ctx => {
-  ctx.body = ctx
+  ctx.body = 'Index'
 })
 
 router.get('/visitors', async ctx => {
