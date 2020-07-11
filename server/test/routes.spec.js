@@ -9,19 +9,34 @@ describe('Router', () => {
   it('should GET /', done => {
     chai.request(server).get('/').end((err, res) => {
       expect(res).to.have.status(200)
+      done()
     })
-    done()
+  })
+  it('should GET /commands', done => {
+    chai.request(server).get('/commands').end((err, res) => {
+      expect(res).to.have.status(200)
+      done()
+    })
   })
   it('should GET /visitors', done => {
     chai.request(server).get('/visitors').end((err, res) => {
       expect(res).to.have.status(200)
+      done()
     })
-    done()
+  })
+  it('should POST /api/commands', done => {
+    chai.request(server)
+      .post('/api/commands')
+      .send({command: 'ls'})
+      .end((err, res) => {
+        expect(res).to.have.status(200)
+      done()
+    })
   })
   it('should GET /api/visitors', done => {
     chai.request(server).get('/api/visitors').end((err, res) => {
       expect(res).to.have.status(200)
+      done()
     })
-    done()
   })
 })

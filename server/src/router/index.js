@@ -13,4 +13,8 @@ router.get('/visitors', async ctx => {
   await send(ctx, '/src/public/visitors.html')
 })
 
+router.get('/commands', async ctx => {
+  await send(ctx, '/src/public/commands.html')
+})
+
 module.exports = router

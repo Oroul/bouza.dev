@@ -1,5 +1,7 @@
 const fetch = require('node-fetch')
 const cache = require('cache')
+const util = require('util')
+const exec = util.promisify(require('child_process').exec)
 
 const queryIP = async (ip) => {
   const response = await fetch(`https://js5.c0d3.com/location/api/ip/${ip}`)
@@ -18,6 +20,21 @@ const addCacheItem = async (ip) => {
   }
 }
 
+const processCommand = async (cmd) => {
+  command = cmd.split(' ')[0]
+  const commands = ['ls', 'pwd', 'cat']
+  if (commands.includes(command)) {
+    try {
+      const { stdout, stderr } = await exec(cmd)
+      return stdout
+    } catch (err) {
+      return `Error: Command failed: ${cmd}\n ${err.stderr}`
+    }
+  } else {
+    return `${command}: command not found`
+  }
+}
+
 module.exports = {
-  queryIP, addCacheItem
+  queryIP, addCacheItem, processCommand
 }
