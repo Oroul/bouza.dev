@@ -39,4 +39,11 @@ describe('Router', () => {
       done()
     })
   })
+  it('should GET /api/memegen/:text', done => {
+    chai.request(server).get('/api/memegen/testText').end((err, res) => {
+      expect(res).to.have.status(200)
+      expect(res.header['content-type']).to.equal('image/jpeg')
+      done()
+    })
+  })
 })

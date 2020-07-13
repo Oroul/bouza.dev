@@ -1,4 +1,7 @@
 const NodeCache = require('node-cache')
-const cache = new NodeCache()
+const ipCache = new NodeCache()
+const imgCache = new NodeCache({ stdTTL: 1200, maxKeys: 10 })
 
-module.exports = cache
+module.exports = {
+  ipCache, imgCache
+}
