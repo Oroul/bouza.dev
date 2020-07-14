@@ -46,4 +46,25 @@ describe('Router', () => {
       done()
     })
   })
+  it('should GET /api/files', done => {
+    chai.request(server).get('/api/files').end((err, res) => {
+      expect(res).to.have.status(200)
+      done()
+    })
+  })
+  it('should GET /api/files/:file', done => {
+    chai.request(server).get('/api/files/testfile').end((err, res) => {
+      expect(res).to.have.status(200)
+      done()
+    })
+  })
+  it('should POST /api/files', done => {
+    chai.request(server)
+      .post('/api/files')
+      .send({name: 'testfile', data:'1234', timeout: '1000'})
+      .end((err, res) => {
+        expect(res).to.have.status(200)
+        done()
+      })
+  })
 })
