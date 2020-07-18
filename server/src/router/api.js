@@ -2,6 +2,7 @@ const Router = require('koa-router')
 const apiRouter = new Router({prefix: '/api'})
 const { ipCache, imgCache } = require('cache')
 const { queryIP, addCacheItem, processCommand, renderImage } = require('utils')
+const { fileTimeouts } = require('utils')
 const fs = require('fs')
 
 apiRouter.get('/visitors', async ctx => {
@@ -48,14 +49,9 @@ apiRouter.get('/files/:file', async ctx => {
 apiRouter.post('/files', async ctx => {
   const file = ctx.request.body
   if (file === undefined) throw new Error('No data sent in POST request')
-  if (file.timeout === undefined) file.timeout = (1000 * 60 * 5)
   await fs.promises.writeFile(`src/files/${file.name}`, file.data)
-  ctx.body = `${file.name} uploaded successfully`
-  setTimeout(() => {
-    fs.unlink(`src/files/${file.name}`, (err) => {
-      if (err) throw err
-    })
-  }, file.timeout)
+  fileTimeouts[file.name] = Date.now()
+  ctx.status = 200
 })
 
 module.exports = apiRouter
