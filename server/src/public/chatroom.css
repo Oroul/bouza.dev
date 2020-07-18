@@ -1,0 +1,30 @@
+body {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 50vw;
+  border: 2px solid #aaa;
+  border-radius: 4px;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+.title {
+  text-align: center;
+}
+
+.messages {
+  height: 80vh;
+  overflow-y: scroll;
+}
+
+.input-div {
+  text-align: center;
+}
+
+.input {
+  width: 90%;
+  margin-bottom: 1em;
+}

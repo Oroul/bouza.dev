@@ -17,4 +17,12 @@ router.get('/commands', async ctx => {
   await send(ctx, '/src/public/commands.html')
 })
 
+router.get('/chat', async ctx => {
+  await send(ctx, '/src/public/chat.html')
+})
+
+router.get('/chat/:room', async ctx => {
+  await send(ctx, '/src/public/chatroom.html')
+})
+
 module.exports = router

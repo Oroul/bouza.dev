@@ -1,0 +1,14 @@
+<div>
+  Create Room:
+  <input class="input"></input>
+  <button class="submit">Submit</button>
+</div>
+
+<script>
+const input = document.querySelector('.input')
+const submit = document.querySelector('.submit')
+
+submit.onmouseup = (event) => {
+  if (input.value !== '') window.location = `/chat/${input.value}`
+}
+</script>
