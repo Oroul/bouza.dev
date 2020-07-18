@@ -3,6 +3,9 @@ const { ipCache, imgCache } = require('cache')
 const util = require('util')
 const exec = util.promisify(require('child_process').exec)
 const Jimp = require('jimp')
+const fs = require('fs')
+
+const fileTimeouts = {}
 
 const queryIP = async (ip) => {
   const response = await fetch(`https://js5.c0d3.com/location/api/ip/${ip}`)
@@ -57,6 +60,24 @@ const renderImage = async (text, query) => {
   return buffer
 }
 
+const clearFileCache = () => {
+  Object.entries(fileTimeouts).forEach((file) => {
+    const name = file[0]
+    const createdAt = file[1]
+    if (Date.now() - createdAt > (5000 * 60 * 5)) {
+      fs.unlink(`src/files/${name}`, (err) => {
+        if (err) throw err
+        delete fileTimeouts[name]
+      })
+    }
+  })
+}
+
 module.exports = {
-  queryIP, addCacheItem, processCommand, renderImage
+  queryIP,
+  addCacheItem,
+  processCommand,
+  renderImage,
+  clearFileCache,
+  fileTimeouts
 }

@@ -61,7 +61,7 @@ describe('Router', () => {
   it('should POST /api/files', done => {
     chai.request(server)
       .post('/api/files')
-      .send({name: 'testfile', data:'1234', timeout: '1000'})
+      .send({name: 'testfile', data:'1234'})
       .end((err, res) => {
         expect(res).to.have.status(200)
         done()

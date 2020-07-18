@@ -4,6 +4,7 @@ const { ipCache, imgCache } = require('cache')
 const { queryIP, addCacheItem, processCommand, renderImage } = require('utils')
 const fetch = require('node-fetch')
 const fs = require('fs')
+const { fileTimeouts } = require('utils')
 const rooms = {}
 
 apiRouter.get('/visitors', async ctx => {
@@ -50,14 +51,9 @@ apiRouter.get('/files/:file', async ctx => {
 apiRouter.post('/files', async ctx => {
   const file = ctx.request.body
   if (file === undefined) throw new Error('No data sent in POST request')
-  if (file.timeout === undefined) file.timeout = (1000 * 60 * 5)
   await fs.promises.writeFile(`src/files/${file.name}`, file.data)
-  ctx.body = `${file.name} uploaded successfully`
-  setTimeout(() => {
-    fs.unlink(`src/files/${file.name}`, (err) => {
-      if (err) throw err
-    })
-  }, file.timeout)
+  fileTimeouts[file.name] = Date.now()
+  ctx.status = 200
 })
 
 apiRouter.get('/session', async ctx => {
