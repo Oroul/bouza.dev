@@ -67,4 +67,36 @@ describe('Router', () => {
         done()
       })
   })
+  it('should GET /api/session - return 403', done => {
+    chai.request(server).get('/api/session').end((err, res) => {
+      expect(res).to.have.status(403)
+      done()
+    })
+  })
+  it('should GET /api/session - return 200', done => {
+    chai.request(server)
+      .get('/api/session')
+      .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9yb3UiLCJpYXQiOjE1OTUwOTk1MDl9.q9_Inn3U2cVgUw99cPWOTkBE_QMFtV5RVMOFmBBXFt0')
+      .end((err, res) => {
+        expect(res).to.have.status(200)
+      done()
+    })
+  })
+  it('should GET /api/chat/:room/messages', done => {
+    chai.request(server)
+      .get('/api/chat/testRoom/messages')
+      .end((err, res) => {
+        expect(res).to.have.status(200)
+      done()
+    })
+  })
+  it('should POST /api/chat/:room/messages', done => {
+    chai.request(server)
+      .post('/api/chat/testRoom/messages')
+      .send({user: 'dummy', message: 'hello'})
+      .end((err, res) => {
+        expect(res).to.have.status(200)
+      done()
+    })
+  })
 })
